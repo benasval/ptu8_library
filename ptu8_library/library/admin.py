@@ -36,12 +36,11 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Genre)
-<<<<<<< HEAD
+# <<<<<<< HEAD
 admin.site.register(models.Author)
 admin.site.register(models.Book, BookAdmin)
 admin.site.register(models.BookInstance)
-=======
+# =======
 admin.site.register(models.Author, AuthorAdmin)
 admin.site.register(models.Book, BookAdmin)
 admin.site.register(models.BookInstance, BookInstanceAdmin)
->>>>>>> b8854fedf714768d9f64c8b980fd01018b8e6f6c
