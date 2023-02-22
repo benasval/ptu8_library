@@ -42,6 +42,9 @@ class Book(models.Model):
     class Meta:
         ordering = ['title']
 
+    def display_genre(self):
+        return ', '.join(genre.name for genre in self.genre.all())
+    display_genre.short_description = ('genre(s)')
 
 class BookInstance(models.Model):
     id = models.UUIDField(
