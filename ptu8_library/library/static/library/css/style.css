@@ -5,7 +5,7 @@ body {
     padding: 0;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 52px calc(100vh - 102px) 50px;
+    grid-template-rows: 62px calc(100vh - 112px) 50px;
     grid-template-areas: 
         "header"
         "main"
@@ -54,8 +54,18 @@ header ul {
     padding-inline-start: 0;
     margin: 8px 0;
     gap: 16px;
+    overflow-x: auto;
 }
 header ul li {
+    display: inline-block;
+}
+header .user-info {
+    flex-grow: 1;
+    text-align: right;
+}
+header .user-info a {
+    background: none;
+    border: none;
     display: inline-block;
 }
 header ul li a {
@@ -94,4 +104,133 @@ header ul li a {
 
 form.search-form {
     margin-bottom: 1rem;
+}
+
+.genres { 
+    display: flex; 
+    flex-direction: row; 
+    padding-inline-start: 0; 
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.genres li { 
+    display: inline-block; 
+    padding: 0 8px; 
+    background-color: #ccf5; 
+    border: 1px solid #346; 
+    border-radius: 8px; 
+}
+li.genre_prefix { 
+    background-color: transparent; 
+    border: 0; 
+    padding: 0; 
+}
+.genres a {
+    background-color: transparent;
+}
+
+.genres .active {
+    color: #ccc;
+}
+
+table {
+    width: 100%;
+    min-width: 500px;
+    overflow-x: auto;
+}
+
+.overdue {
+    background-color: #f007;
+}
+
+table tbody tr:hover:not(.overdue) {
+    background-color: #fff5;
+}
+
+table tbody tr.overdue:hover {
+    background-color: #f009;
+}
+
+table td {
+    padding: 4px 8px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+form p {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    justify-content: space-between;
+    gap: 16px;
+    width: 400px;
+    max-width: 100%;
+}
+
+form p input {
+    width: 50%;
+}
+
+form p small {
+    text-align: center;
+    width: 100%;
+    border-bottom: 1px solid #345;
+}
+
+.alert {
+    border: 1px solid #345;
+    border-radius: 8px;
+    padding: 4px 16px;
+    margin: 8px 0;
+}
+
+.alert-success {
+    background-color: #0f07;
+}
+
+.alert-info {
+    background-color: #06f7;
+}
+
+.alert-debug {
+    background-color: #fff7;
+}
+
+.alert-error {
+    background-color: #f007;
+}
+
+.alert-warning {
+    background-color: #fc07;
+}
+
+.float-right {
+    float: right;
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-inline-start: 0;
+    list-style: none;
+}
+
+.reviews li {
+    border-bottom: 1px dotted #345;
+}
+
+.user-profile-img {
+    float: left;
+    max-width: 30%;
+    border-radius: 50%;
+    margin-right: 1rem;
+    border: 4px solid #345;
+}
+
+table a, h1 a, h2 a, h3 a {
+    padding: 0 4px; border-radius: 0.5rem;
 }

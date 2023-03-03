@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 from . import local_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,11 +29,18 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+LOGIN_REDIRECT_URL = reverse_lazy('index')
 
 # Application definition
 
 INSTALLED_APPS = [
+    # musu projekto apps'ai
     'library',
+    'user_profile',
+    # 3 saliu apps'ai
+    'tinymce',
+    'rosetta',
+    # Django apps'ai
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +53,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -107,6 +116,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en-us', 'English (US)'),
+    ('lt', 'Lietuvių'),
+    ('it', 'Italiano'),
+]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -126,3 +141,36 @@ MEDIA_ROOT = BASE_DIR.joinpath(MEDIA_URL)
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_POST = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = local_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = local_settings.EMAIL_HOST_PASSWORD
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 480,
+    'width': 1120,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'plugins': '''
+            textcolor save link image media preview codesample contextmenu
+            table code lists insertdatetime nonbreaking anchor pagebreak
+            directionality searchreplace wordcount visualblocks hr
+            visualchars code fullscreen autolink lists charmap print 
+            ''',
+    'toolbar1': '''
+            bold italic underline | fontselect, fontsizeselect |
+            forecolor backcolor | alignleft alignright 
+            aligncenter alignjustify | indent outdent | bullist numlist table |
+            | link image media | codesample | hr
+            ''',
+    'toolbar2': '''
+            fullscreen preview | visualblocks visualchars | charmap pagebreak nonbreaking anchor | code |
+            ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+}

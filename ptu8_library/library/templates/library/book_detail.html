@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}{{ object.title }} in {{ block.super }}{% endblock title %}
 {% block style %}
-.genres { display: flex; flex-direction: row; padding-inline-start: 0; gap: 16px; }
-.genres li { display: inline-block; padding: 0 8px; background-color: #ccf5; border: 1px solid #346; border-radius: 8px; }
-li.genre_prefix { background-color: transparent; border: 0; padding: 0; }
 .book_instances { display: flex; flex-direction: column; padding-inline-start: 0; gap: 8px; }
 .book_instances li { display: flex; flex-direction: row; justify-content: space-between; }
 .status { border: 1px solid #346; padding: 2px 8px; border-radius: 8px; }
@@ -11,9 +8,20 @@ li.genre_prefix { background-color: transparent; border: 0; padding: 0; }
 .status_t { background-color: #960; }
 .status_r { background-color: #660; }
 .status_u, .status_m { background-color: #600; }
+.book-cover { width: 25%; float: right; margin-left: 16px; }
+.review-title { border-bottom: 2px solid #345; }
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .book-cover { width: 50%; }
+}
+@media screen and (max-width: 480px) {
+    .book-cover { width: 100%; margin: 0; float: none; }
+}
 {% endblock style %}
 {% block content %}
-<h1>{{ object.title }}</h1>
+<h1>{{ object.title }} {% if request.user.is_authenticated %}<a href="{% url 'user_bookinstance_create' %}?book_id={{ object.id }}" class="float-right">Reserve</a>{% endif %}</h1>
+{% if object.cover %}
+<img src="{{ object.cover.url }}" class="book-cover">
+{% endif %}
 <h3>by <a href="{% url 'author' object.author.id %}">{{ object.author }}</a></h3>
 <ul class="genres">
     <li class="genre_prefix">Genres:</li>
@@ -21,7 +29,7 @@ li.genre_prefix { background-color: transparent; border: 0; padding: 0; }
         <li>{{ genre }}</li>
     {% endfor %}
 </ul>
-<p>{{ object.summary }}</p>
+{{ object.summary|safe }}
 {% if object.book_instances.count > 0 %}
     <h3>In PTU8 library these copies are in service:</h3>
     <ul class="book_instances">
@@ -34,5 +42,24 @@ li.genre_prefix { background-color: transparent; border: 0; padding: 0; }
     </ul>
 {% else %}
     <h3>No copies of this book are available in our library yet</h3>
+{% endif %}
+<h2 class="review-title">Reviews</h2>
+<form method="post" action="{{ request.path }}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">post review</button>
+</form>
+{% if object.reviews %}
+    <ul class="reviews">
+        {% for review in object.reviews.all %}
+            <li>
+                <h4><a href="{% url 'profile_detail' review.reviewer.username %}">{{ review.reviewer }}</a>
+                    <span class="float-right"> {{ review.created_at }}</span></h4>
+                <p>{{ review.content }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>No reviews for this book. Be first!</h3>
 {% endif %}
 {% endblock content %}
